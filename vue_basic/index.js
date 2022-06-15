@@ -1,88 +1,91 @@
 setTimeout(function () {
-  document.getElementsByTagName("html")[0].classList.add("loading-delay");
-}, 100);
-
+  document.getElementsByTagName('html')[0].classList.add('loading-delay')
+}, 100)
 
 Vue.directive('focus', {
-  inserted: function(element) {
+  inserted: function (element) {
     element.focus()
   }
 })
-  
-new Vue({
+
+/* global Vue */
+/* global localStorage */
+const addToDo = new Vue({
   el: '#addtodo',
   data: {
     todo: ''
   },
   methods: {
-    addTask: function(e) {
-      var id_number = new Date().getTime().toString();
-      var todo = {
-        id: id_number,
+    addTask: function (e) {
+      const idNumber = new Date().getTime().toString()
+      const todo = {
+        id: idNumber,
         text: this.todo,
         check: false
       }
-      localStorage.setItem(id_number, JSON.stringify(todo))
+      localStorage.setItem(idNumber, JSON.stringify(todo))
       this.todo = ''
       window.location.reload()
     }
   }
 })
+addToDo.$mount('#addtodo')
 
-var toDoList = new Vue({
+const toDos = new Vue({
   el: '#todos',
   data: {
     tasks: [],
-    editObject: "",
-    editValue: "",
+    editObject: '',
+    editValue: '',
     hoverFlag: false,
     hoverIndex: null
   },
-  mounted() {
+  mounted () {
     if (localStorage) {
-      for( let i = 0; i < localStorage.length; i++ ){
-        var key = localStorage.key(i)
-        var data = JSON.parse(localStorage.getItem(key))
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i)
+        const data = JSON.parse(localStorage.getItem(key))
         this.tasks.push(data)
       }
     }
   },
   methods: {
-    checkTask: function(todo_id) {
-      task = this.tasks.find(task => task.id == todo_id)
-      if ( task.check == false) {
-        localStorage.setItem(todo_id, JSON.stringify({id: todo_id, text: task.text, check:true}))
+    checkTask: function (todoId) {
+      const task = this.tasks.find(task => task.id === todoId)
+      if (task.check === false) {
+        localStorage.setItem(todoId, JSON.stringify({ id: todoId, text: task.text, check: true }))
       } else {
-        localStorage.setItem(todo_id, JSON.stringify({id: todo_id, text: task.text, check:false}))
+        localStorage.setItem(todoId, JSON.stringify({ id: todoId, text: task.text, check: false }))
       }
       window.location.reload()
     },
-    deleteTask: function(todo_id) {
-      localStorage.removeItem(todo_id)
+    deleteTask: function (todoId) {
+      localStorage.removeItem(todoId)
       window.location.reload()
     },
-    onEdit: function(todo_id) {
-      this.editObject = todo_id
-      this.editValue = JSON.parse(localStorage.getItem(todo_id))
+    onEdit: function (todoId) {
+      this.editObject = todoId
+      this.editValue = JSON.parse(localStorage.getItem(todoId))
     },
-    offEdit: function(todo_id) {
+    offEdit: function (todoId) {
       this.editObject = ''
-      var data = JSON.parse(localStorage.getItem(todo_id))
-      if(data.text == ''){
-        localStorage.setItem(todo_id, JSON.stringify(this.editValue))
+      const data = JSON.parse(localStorage.getItem(todoId))
+      if (data.text === '') {
+        localStorage.setItem(todoId, JSON.stringify(this.editValue))
       } else {
-        task = this.tasks.find(task => task.id == todo_id)
+        const task = this.tasks.find(task => task.id === todoId)
         data.text = task.text
-        localStorage.setItem(todo_id, JSON.stringify(task))
+        localStorage.setItem(todoId, JSON.stringify(task))
       }
       window.location.reload()
     },
-    mouseOverAction: function(index){
+    mouseOverAction: function (index) {
       this.hoverFlag = true
       this.hoverIndex = index
     },
-    mouseLeaveAction: function(){
+    mouseLeaveAction: function () {
       this.hoverFlag = false
     }
   }
 })
+toDos.$mount('#todos')
