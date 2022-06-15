@@ -1,3 +1,7 @@
+/* global Vue */
+/* global localStorage */
+/* eslint-disable no-new */
+
 setTimeout(function () {
   document.getElementsByTagName('html')[0].classList.add('loading-delay')
 }, 100)
@@ -8,9 +12,7 @@ Vue.directive('focus', {
   }
 })
 
-/* global Vue */
-/* global localStorage */
-const addToDo = new Vue({
+new Vue({
   el: '#addtodo',
   data: {
     todo: ''
@@ -29,9 +31,8 @@ const addToDo = new Vue({
     }
   }
 })
-addToDo.$mount('#addtodo')
 
-const toDos = new Vue({
+new Vue({
   el: '#todos',
   data: {
     tasks: [],
@@ -88,4 +89,3 @@ const toDos = new Vue({
     }
   }
 })
-toDos.$mount('#todos')
