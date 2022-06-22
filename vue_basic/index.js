@@ -26,13 +26,13 @@ new Vue({
         check: false
       }
       localStorage.setItem(idNumber, JSON.stringify(todo))
+      toDo.tasks.push(todo)
       this.todo = ''
-      window.location.reload()
     }
   }
 })
 
-new Vue({
+const toDo = new Vue({
   el: '#todos',
   data: {
     tasks: [],
@@ -55,14 +55,17 @@ new Vue({
       const task = this.tasks.find(task => task.id === todoId)
       if (task.check === false) {
         localStorage.setItem(todoId, JSON.stringify({ id: todoId, text: task.text, check: true }))
+        task.check = true
       } else {
         localStorage.setItem(todoId, JSON.stringify({ id: todoId, text: task.text, check: false }))
+        task.check = false
       }
-      window.location.reload()
     },
     deleteTask: function (todoId) {
       localStorage.removeItem(todoId)
-      window.location.reload()
+      const todoElement = document.getElementById(todoId)
+      todoElement.parentNode.remove()
+      todoElement.remove()
     },
     onEdit: function (todoId) {
       this.editObject = todoId
@@ -78,7 +81,6 @@ new Vue({
         data.text = task.text
         localStorage.setItem(todoId, JSON.stringify(task))
       }
-      window.location.reload()
     },
     mouseOverAction: function (index) {
       this.hoverFlag = true

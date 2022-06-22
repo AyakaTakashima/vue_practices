@@ -41,14 +41,14 @@ h1 span {
   margin-right: 10%;
 }
 
-#todo {
+.todo {
   border-bottom:solid;
   border-width:1px;
   border-color: lightgray;
   padding: 5px;
 }
 
-#todo input[type="checkbox"] {
+input[type="checkbox"] {
   display: none;
 }
 
