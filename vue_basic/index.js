@@ -63,9 +63,13 @@ const toDo = new Vue({
     },
     deleteTask: function (todoId) {
       localStorage.removeItem(todoId)
-      const todoElement = document.getElementById(todoId)
-      todoElement.parentNode.remove()
-      todoElement.remove()
+      const leftTaskData = this.tasks.filter(task => task.id !== todoId)
+      this.tasks.length = 0
+      if (leftTaskData) {
+        for (let i = 0; i < leftTaskData.length; i++) {
+          this.tasks.push(leftTaskData[i])
+        }
+      }
     },
     onEdit: function (todoId) {
       this.editObject = todoId
