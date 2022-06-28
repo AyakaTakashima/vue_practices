@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title>To do list</title>
+  </head>
+  <body>
+    <h1> <span>
+          TO DO LIST
+          <img src="icon-cat.png" id="dog-icon" height="50px">
+        </span>
+    </h1>
+    <div id="todos">
+      <div
+        class="todo"
+        id="todo"
+        v-for="todo in tasks"
+        @mouseover="mouseOverAction(todo.id)"
+        @mouseleave="mouseLeaveAction(todo.id)"
+      >
+        <div :id="todo.id">
+          <input
+            type="checkbox"
+            :id="todo.id"
+            @click="checkTask(todo.id)"
+            v-if="todo.check==true"
+            checked
+          >
+          <label
+            name="todo.id"
+            :for="todo.id"
+            class="task-checkbox"
+            @click="checkTask(todo.id)"
+          ></label>
+          <span
+            class="todo-name"
+            v-if="editObject!==todo.id"
+            @click="onEdit(todo.id)"
+            v-cloak
+          >{{todo.text}}</span>
+          <input
+            v-if="editObject===todo.id"
+            v-model="todo.text"
+            type="text"
+            @keypress.enter="offEdit(todo.id)"
+            @blur="offEdit(todo.id)"
+            v-focus v-cloak id="todo.id"
+          >
+          <span
+            v-show="hoverFlag && (todo.id === hoverIndex)"
+          >
+            <button
+              @click="deleteTask(todo.id)"
+              id="delete-button"
+            >
+              <span id="delete-icon">
+                <i class="fa-regular fa-circle-xmark"></i>
+              </span> 
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div id="addtodo">
+      <input
+        type="text"
+        v-model="todo"
+        @keypress.enter="addTask"
+      >
+      <i class="fa-solid fa-pencil"></i>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
